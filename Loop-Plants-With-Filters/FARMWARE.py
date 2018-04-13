@@ -15,6 +15,7 @@ class MyFarmware():
         self.input_openfarm_slug = os.environ.get(prefix+"_openfarm_slug", '*')
         self.input_age_min_day = int(os.environ.get(prefix+"_age_min_day", -1))
         self.input_age_max_day = int(os.environ.get(prefix+"_age_max_day", 36500))
+        self.input_filter_plant_stage = os.environ.get(prefix+"_filter_plant_stage", '*')        
         self.input_filter_meta_key = os.environ.get(prefix+"_filter_meta_key", 'None')
         self.input_filter_meta_value = os.environ.get(prefix+"_filter_meta_value", 'None')
         self.input_sequence_init = os.environ.get(prefix+"_sequence_init", 'None')
@@ -66,7 +67,7 @@ class MyFarmware():
             log("{} -> {}".format(status_code,text), message_type='error', title=self.farmwarename + ' check_celerypy')
             raise
 
-    def apply_filters(self, points, point_name='', openfarm_slug='', age_min_day=0, age_max_day=36500, meta_key='', meta_value='', pointer_type='Plant'):
+    def apply_filters(self, points, point_name='', openfarm_slug='',plant_stage='', age_min_day=0, age_max_day=36500, meta_key='', meta_value='', pointer_type='Plant'):
         if self.input_debug >= 1: log(points, message_type='debug', title=str(self.farmwarename) + ' : load_points')
         filtered_points = []
         now = datetime.datetime.utcnow()
@@ -81,7 +82,7 @@ class MyFarmware():
                         b_meta = False
                 else:
                     b_meta = True
-                if  (p['name'].lower() == point_name.lower() or point_name == '*') and (p['openfarm_slug'].lower() == openfarm_slug.lower() or openfarm_slug == '*') and (age_min_day <= age_day <= age_max_day) and b_meta==True:
+                if  (p['name'].lower() == point_name.lower() or point_name == '*') and (p['openfarm_slug'].lower() == openfarm_slug.lower() or openfarm_slug == '*') and (p['plant_stage'].lower() == plant_stage.lower() or plant_stage == '*') and (age_min_day <= age_day <= age_max_day) and b_meta==True:
                     filtered_points.append(p.copy())
         return filtered_points
 
@@ -92,6 +93,7 @@ class MyFarmware():
             openfarm_slug=self.input_openfarm_slug,
             age_min_day=self.input_age_min_day,
             age_max_day=self.input_age_max_day,
+            plant_stage=self.input_plant_stage,
             meta_key=self.input_filter_meta_key,
             meta_value=self.input_filter_meta_value,
             pointer_type='Plant')
