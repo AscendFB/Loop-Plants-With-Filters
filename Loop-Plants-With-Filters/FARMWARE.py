@@ -15,7 +15,7 @@ class MyFarmware():
         self.input_openfarm_slug = os.environ.get(prefix+"_openfarm_slug", '*')
         self.input_age_min_day = int(os.environ.get(prefix+"_age_min_day", -1))
         self.input_age_max_day = int(os.environ.get(prefix+"_age_max_day", 36500))
-        self.input_plant_stage = os.environ.get(prefix+"_filter_plant_stage", '*')        
+        self.input_plant_stage = os.environ.get(prefix+"_plant_stage", '*')        
         self.input_filter_meta_key = os.environ.get(prefix+"_filter_meta_key", 'None')
         self.input_filter_meta_value = os.environ.get(prefix+"_filter_meta_value", 'None')
         self.input_sequence_init = os.environ.get(prefix+"_sequence_init", 'None')
